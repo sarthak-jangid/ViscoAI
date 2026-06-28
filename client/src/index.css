@@ -1,12 +1,24 @@
 @import "tailwindcss";
 
 @layer base {
+  :root {
+    color-scheme: dark;
+    --bg: #060816;
+    --panel: rgba(255, 255, 255, 0.06);
+    --text-muted: rgba(255, 255, 255, 0.58);
+    --line: rgba(255, 255, 255, 0.1);
+  }
+
   * {
     @apply box-border m-0 p-0;
   }
   body {
     font-family: "DM Sans", sans-serif;
-    @apply bg-[#080b14] text-white antialiased;
+    @apply bg-[var(--bg)] text-white antialiased;
+    background-image:
+      radial-gradient(circle at top left, rgba(99, 102, 241, 0.24), transparent 28%),
+      radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.18), transparent 24%),
+      linear-gradient(135deg, #060816 0%, #0b1227 100%);
   }
   h1,
   h2,
@@ -41,18 +53,15 @@
 
   /* ── Glass card ── */
   .glass-card {
-    @apply bg-white/4 border border-white/8 rounded-2xl backdrop-blur-xl;
+    @apply rounded-[1.75rem] border border-white/10 bg-white/6 backdrop-blur-2xl;
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset,
-      0 32px 64px rgba(0, 0, 0, 0.4);
+      0 24px 60px rgba(2, 6, 23, 0.45);
   }
 
   /* ── Primary CTA button ── */
   .btn-primary {
-    @apply bg-linear-to-r from-indigo-500 to-emerald-400
-           text-white font-semibold cursor-pointer
-           hover:opacity-90 active:opacity-80
-           transition-all duration-200;
-    box-shadow: 0 4px 24px rgba(99, 102, 241, 0.35);
+    @apply cursor-pointer bg-linear-to-r from-indigo-500 via-violet-500 to-emerald-400 text-white font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:opacity-95 active:opacity-80;
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.28);
   }
 
   /* ── Google login button ── */
@@ -96,21 +105,20 @@
 
   /* ── Navbar ── */
   .navbar {
-    @apply fixed top-0 inset-x-0 z-50 border-b border-white/6;
-    background: rgba(8, 11, 20, 0.72);
+    @apply fixed inset-x-0 top-0 z-50 border-b border-white/8;
+    background: rgba(6, 8, 22, 0.3);
     backdrop-filter: blur(20px);
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset,
-      0 8px 32px rgba(0, 0, 0, 0.24);
+      0 12px 30px rgba(2, 6, 23, 0.32);
   }
 
   .nav-link {
-    @apply relative px-3.5 py-2 text-sm font-medium text-white/50 rounded-lg
-           transition-all duration-200 hover:text-white hover:bg-white/5;
+    @apply relative rounded-full px-3.5 py-2 text-sm font-medium text-white/55 transition-all duration-200 hover:bg-white/8 hover:text-white;
   }
 
   .nav-link-active {
-    @apply text-white bg-white/8;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+    @apply bg-white/10 text-white;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
   }
 
   .nav-link-active::after {
@@ -120,16 +128,15 @@
   }
 
   .nav-cta {
-    @apply px-4 py-2 text-sm font-semibold rounded-xl text-white
-           transition-all duration-200 hover:opacity-90 active:scale-[0.98];
+    @apply rounded-full px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-95 active:scale-[0.98];
     background: linear-gradient(135deg, #6366f1 0%, #10b981 100%);
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+    box-shadow: 0 10px 24px rgba(99, 102, 241, 0.28);
   }
-  
+
   .nav-cta2 {
-    @apply px-4 py-2 text-sm font-semibold rounded-xl text-white
-           transition-all duration-200 hover:opacity-90 active:scale-[0.98];
-    box-shadow: 0 3px 8px rgba(99, 102, 241, 0.35);
+    @apply rounded-full px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-white/8 hover:opacity-95 active:scale-[0.98];
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+    background: rgba(255, 255, 255, 0.04);
   }
 
   .nav-user-pill {

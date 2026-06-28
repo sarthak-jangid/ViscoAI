@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 // Routes
 import userRoutes from "./routes/user.route.js";
+import aiRoutes from "./routes/ai.route.js";
 dotenv.config();
 await connectDB();
 const app = express();
@@ -16,11 +17,15 @@ app.use(cors({
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
 }));
-app.use(express.json());
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "20mb" }));
+app.use(express.urlencoded({
+    extended: true,
+    limit: "20mb",
+}));
 // console.log("request came to backend...")
 app.use("/api/user", userRoutes);
+app.use("/api/ai", aiRoutes);
 app.listen(env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
 });

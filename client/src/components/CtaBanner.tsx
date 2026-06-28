@@ -3,38 +3,16 @@ import { Link } from "react-router-dom";
 
 function CtaBanner() {
   return (
-    <section className="py-24 px-6 ">
-      <div className="max-w-3xl mx-auto glass-card p-12 text-center relative overflow-hidden">
-        <div
-          className="orb w-64 h-64 bg-indigo-500 -top-10 -left-10"
-          style={{
-            opacity: 0.15,
-          }}
-        ></div>
-        <div
-          className="orb w-48 h-48 bg-emerald-500 -bottom-10 -rig   ht-10"
-          style={{
-            opacity: 0.15,
-          }}
-        ></div>
-        <h2
-          className="text-2xl md:text-4xl font-extrabold realtive z-10"
-          style={{
-            fontFamily: "'Syne', sans-serif",
-          }}
-        >
-          Your next job is
-          <br />
-          <span className="text-gradient">waiting for you</span>
+    <section className="px-6 py-20 sm:px-8 lg:px-12">
+      <div className="mx-auto max-w-4xl overflow-hidden rounded-[2rem] border border-white/8 bg-gradient-to-br from-indigo-500/15 to-emerald-500/15 p-10 text-center shadow-2xl shadow-black/20 sm:p-12">
+        <h2 className="text-3xl font-extrabold sm:text-4xl" style={{ fontFamily: "'Syne', sans-serif" }}>
+          Ready to see how your resume performs?
         </h2>
-        <p className="text-white/40 mb-5 mt-5 relative z-10 ">
-          Join thousands of jobs seekers using ViscoAI to get hired faster
+        <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-white/50">
+          Start with the v1 experience and review your resume with a cleaner, more focused AI workflow.
         </p>
-        <Link
-          to={"/analyse"}
-          className="btn-primary inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-base font-semibold relative z-10"
-        >
-          Analyse My Resume <ArrowRight size={16} />
+        <Link to="/analyse" className="btn-primary mt-8 inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-base font-semibold">
+          Analyze My Resume <ArrowRight size={16} />
         </Link>
       </div>
     </section>

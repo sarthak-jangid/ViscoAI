@@ -78,13 +78,18 @@ export interface ScoreBlock {
   score: number;
   feedback: string;
 }
+
 export interface Suggestion {
   category: string;
   issue: string;
   recommendation: string;
   priority: "high" | "medium" | "low";
 }
+
 export interface Analysis {
+  analysisMode: "general" | "targeted";
+  detectedRole: string;
+  targetRole: string;
   atsScore: number;
   scoreBreakdown: {
     formatting: ScoreBlock;
@@ -92,6 +97,8 @@ export interface Analysis {
     structure: ScoreBlock;
     readability: ScoreBlock;
   };
+  matchedKeywords: string[];
+  missingKeywords: string[];
   suggestions: Suggestion[];
   strengths: string[];
   summary: string;

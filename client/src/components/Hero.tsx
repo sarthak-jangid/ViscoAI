@@ -1,117 +1,76 @@
-import { ArrowRight, ChevronRight, Zap } from "lucide-react";
-import React from "react";
+import { ArrowRight, ChevronRight, Sparkles, FileCheck2, BadgeCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAppData } from "../context/AppContext";
 
 function Hero() {
   const { isAuth } = useAppData();
+
   return (
-    <section className="relative pt-28 pb-28 px-6 flex flex-col items-center overflow-hidden">
-      <div
-        className="orb w-150 h-150 bg-indigo-600 -top-40 left-1/2 -translate-x -1/2 "
-        style={{
-          opacity: 0.12,
-        }}
-      />
+    <section className="relative overflow-hidden px-6 pb-24 pt-28 sm:px-8 lg:px-12">
+      <div className="orb h-[26rem] w-[26rem] -top-24 left-1/2 -translate-x-1/2 bg-indigo-600" style={{ opacity: 0.14 }} />
+      <div className="orb bottom-8 right-4 h-56 w-56 bg-emerald-500" style={{ opacity: 0.12 }} />
 
-      <div
-        className="orb w-80 h-80 bg-emerald-500 bottom-0 right-10"
-        style={{
-          opacity: 0.1,
-        }}
-      />
-
-      <div
-        className="inline-flex items-center gap-2
-      feature-pill mb-6 animate-fade-in "
-      >
-        <Zap size={11} className="text-emerald-400" />
-        <span> AI-Powered Career Platform </span>
-      </div>
-
-      <h1
-        className="text-4xl md:text-6xl lg:text7xl font-extrabold leading-[1.08] tracking-tight max-w-4xl mb-6 animate-slide-up text-center"
-        style={{ fontFamily: "'Syne',sans-serif " }}
-      >
-        Land Your Dream Job
-        <br />
-        <span className="text-gradient animate-slide-up">Faster With AI</span>
-      </h1>
-
-      <p
-        className="text-white/45 text-lg md:text-xl max-w-xl leading-relaxed mb-10 animate-slide-up  "
-        style={{
-          animationDelay: "0.1s",
-        }}
-      >
-        Analyse your resume, get an ATS Score, discover the right jobs
-      </p>
-      <div
-        className="flex flex-col sm:flex-row items-center animate-slide-up gap-3 "
-        style={{ animationDelay: "0.2s" }}
-      >
-        {" "}
-        <Link
-          to={isAuth ? "/analyseresume" : "/login"}
-          className="btn-primary px-7 py-3.5 rounded-xl text-base font-semibold"
-        >
-          {isAuth ? (
-            <p className="flex items-center gap-2">
-              {" "}
-              Analyse Your Resume <ArrowRight size={16} />
-            </p>
-          ) : (
-            <p className="flex items-center gap-2">
-              {" "}
-              Start for free <ArrowRight size={16} />{" "}
-            </p>
-          )}
-        </Link>
-        <a
-          href="#features"
-          className="text-sm text-white/45 hover:text-white transition-colors flex items-center gap-1.5;"
-        >
-          See how it works <ChevronRight size={14} />
-        </a>{" "}
-      </div>
-
-      <p
-        className="text-white/25 text-xs mt-6 animate-slide-up"
-        style={{
-          animationDelay: "0.3s",
-        }}
-      >
-        First 3 Analyses Free • No credit card required{" "}
-      </p>
-
-      <div
-        className="mt-16 glass-card px-8 py-5  flex items-center gap-6 animate-slide-up"
-        style={{
-          animationDelay: "0.35s",
-        }}
-      >
-        <div className="flex flex-col items-center">
-          <span
-            className="text-4xl font-black text-gradient"
-            style={{ fontFamily: "'Syne',sans-serif " }}
-          >
-            {" "}
-            87{" "}
-            <span className="text-[13px] text-white/35 uppercase tracking-widest ">
-              {" "}
-              ATS Score{" "}
-            </span>{" "}
-          </span>
+      <div className="mx-auto flex max-w-7xl flex-col items-center text-center">
+        <div className="feature-pill mb-6 animate-fade-in">
+          <Sparkles size={12} className="text-emerald-400" />
+          <span>AI Resume Analysis • V1</span>
         </div>
 
-        <div className="h-10 w-px bg-white/10" />
-        <div className="flex flex-col gap-1 text-left">
-          <span className="text-xs text-emerald-400 font-medium">
-            √ Strong Keywords detected
-          </span>
-          <span className="text-xs text-yellow-400 font-medium">
-            ⚠ Missing: qauntified impact{" "}
-          </span>
+        <h1 className="mb-6 max-w-4xl text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-7xl">
+          Make your resume feel
+          <span className="mt-2 block text-gradient">recruiter-ready.</span>
+        </h1>
+
+        <p className="mb-10 max-w-2xl text-lg leading-8 text-white/55 sm:text-xl">
+          Upload your resume, get a focused ATS review, and discover the exact improvements that help you stand out faster.
+        </p>
+
+        <div className="flex flex-col items-center gap-3 sm:flex-row">
+          <Link to={isAuth ? "/analyse" : "/login"} className="btn-primary inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-base font-semibold">
+            {isAuth ? "Analyze My Resume" : "Start for Free"}
+            <ArrowRight size={16} />
+          </Link>
+          <a href="#features" className="inline-flex items-center gap-1.5 text-sm text-white/45 transition-colors hover:text-white">
+            See the experience <ChevronRight size={14} />
+          </a>
+        </div>
+
+        <div className="mt-12 grid w-full max-w-5xl gap-4 md:grid-cols-[1.1fr_0.9fr]">
+          <div className="glass-card flex flex-col items-start gap-4 p-6 text-left sm:p-7">
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/15 text-indigo-300">
+                <FileCheck2 size={20} />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">ATS score preview</p>
+                <p className="text-sm text-white/45">Instant, focused feedback</p>
+              </div>
+            </div>
+            <div className="flex items-end gap-3">
+              <span className="text-5xl font-black text-gradient">87</span>
+              <span className="mb-1 text-sm uppercase tracking-[0.25em] text-white/35">/ 100</span>
+            </div>
+            <p className="text-sm leading-7 text-white/55">
+              Strong keyword coverage with a few impactful sections to improve before you apply.
+            </p>
+          </div>
+
+          <div className="glass-card p-6 text-left sm:p-7">
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-300">
+                <BadgeCheck size={20} />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">Why this version matters</p>
+                <p className="text-sm text-white/45">Less clutter, more clarity</p>
+              </div>
+            </div>
+            <ul className="mt-5 space-y-3 text-sm text-white/60">
+              <li className="flex gap-2"><span className="mt-1 h-2.5 w-2.5 rounded-full bg-gradient-to-r from-indigo-400 to-emerald-400" /> Resume-first flow with no extra distractions</li>
+              <li className="flex gap-2"><span className="mt-1 h-2.5 w-2.5 rounded-full bg-gradient-to-r from-indigo-400 to-emerald-400" /> Simple upload experience tailored for v1</li>
+              <li className="flex gap-2"><span className="mt-1 h-2.5 w-2.5 rounded-full bg-gradient-to-r from-indigo-400 to-emerald-400" /> Clear AI guidance around ATS and impact</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>

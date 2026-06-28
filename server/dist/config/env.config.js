@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-const requiredEnvVars = ["MONGO_URI", "PORT", "GOOGLE_CLIENT_ID", "GOOGLE_SECRET", "JWT_SECRET"];
+const requiredEnvVars = ["MONGO_URI", "PORT", "GOOGLE_CLIENT_ID", "GOOGLE_SECRET", "JWT_SECRET", "GOOGLE_GEMINI_API_KEY"];
 for (const envVar of requiredEnvVars) {
     if (!process.env[envVar]) {
         throw new Error(`Missing environment variable: ${envVar}`);
@@ -11,5 +11,6 @@ export const env = {
     PORT: Number(process.env.PORT) || 3000,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_SECRET: process.env.GOOGLE_SECRET,
-    JWT_SECRET: process.env.JWT_SECRET
+    JWT_SECRET: process.env.JWT_SECRET,
+    GOOGLE_GEMINI_API_KEY: process.env.GOOGLE_GEMINI_API_KEY
 };

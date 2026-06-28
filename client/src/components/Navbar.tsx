@@ -4,10 +4,9 @@ import { Menu, X } from "lucide-react";
 import { useAppData } from "../context/AppContext";
 
 const NAV_LINKS = [
-  { label: "Analyse", to: "/analyse" },
-  { label: "Job Matcher", to: "/jobmatcher" },
-  { label: "Resume Builder", to: "/resumebuilder" },
-  { label: "Interview Prep", to: "/interviewpre" },
+  { label: "Home", to: "/" },
+  { label: "Analyze", to: "/analyse" },
+  { label: "Account", to: "/account" },
 ] as const;
 
 function Navbar() {
@@ -21,82 +20,30 @@ function Navbar() {
   return (
     <>
       <nav className="navbar">
-        <div className="max-w-[90%] mx-auto px-5 md:px-10">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <Link
-              to="/"
-              className="flex items-center gap-2.5 shrink-0 group"
-              onClick={() => setOpen(false)}
-            >
-              <div className="w-9 h-9 rounded-xl bg-linear-to-br from-indigo-500 to-emerald-400 flex items-center justify-center text-lg shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform duration-200">
-                📚
-              </div>
-              <span
-                className="font-bold text-lg tracking-tight text-white/90"
-                style={{ fontFamily: "'Syne', sans-serif" }}
+        <div className="mx-auto w-full max-w-6xl px-3 sm:px-4 lg:px-5">
+          <div className="mt-3 rounded-full border border-white/10 bg-white/8 px-2.5 py-2 shadow-[0_16px_44px_rgba(2,6,23,0.32)] backdrop-blur-2xl">
+            <div className="flex h-13 items-center justify-between gap-2">
+              <Link
+                to="/"
+                className="group flex shrink-0 items-center gap-2.5"
+                onClick={() => setOpen(false)}
               >
-                Visco<span className="text-gradient">AI</span>
-              </span>
-            </Link>
-
-            {/* Desktop links */}
-            <div className="hidden md:flex items-center gap-1">
-              {NAV_LINKS.map(({ label, to }) => (
-                <Link
-                  key={to}
-                  to={to}
-                  className={`nav-link ${isActive(to) ? "nav-link-active" : ""}`}
+                <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-emerald-400 text-base shadow-lg shadow-indigo-500/30 transition-transform duration-200 group-hover:scale-105">
+                  ✦
+                </div>
+                <span
+                  className="text-lg font-semibold tracking-tight text-white/90"
+                  style={{ fontFamily: "'Syne', sans-serif" }}
                 >
-                  {label}
-                </Link>
-              ))}
-            </div>
+                  Visco<span className="text-gradient">AI</span>
+                </span>
+              </Link>
 
-            {/* Desktop auth */}
-            <div className="hidden md:flex items-center gap-3">
-              {isAuth ? (
-                <Link to="/account" className="nav-user-pill">
-                  <img
-                    src={"/user.png"}
-                    className="w-8 h-8 rounded-full object-cover ring-2 ring-indigo-500/30"
-                  />
-                  <span className="text-sm font-medium text-white/80">
-                    {user?.name?.split(" ")[0]}
-                  </span>
-                </Link>
-              ) : (
-                <>
-                  <Link to="/login" className="nav-cta2">
-                    Sign In
-                  </Link>
-                  <Link to="/login" className="nav-cta">
-                    Get Started Free
-                  </Link>
-                </>
-              )}
-            </div>
-
-            {/* Mobile menu button */}
-            <button
-              type="button"
-              className="md:hidden p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/8 transition-colors"
-              onClick={() => setOpen((prev) => !prev)}
-              aria-label={open ? "Close menu" : "Open menu"}
-            >
-              {open ? <X size={22} /> : <Menu size={22} />}
-            </button>
-          </div>
-
-          {/* Mobile menu */}
-          {open && (
-            <div className="nav-mobile-panel pb-5">
-              <div className="flex flex-col gap-1 pt-2">
+              <div className="hidden flex-1 items-center justify-center gap-1 md:flex">
                 {NAV_LINKS.map(({ label, to }) => (
                   <Link
                     key={to}
                     to={to}
-                    onClick={() => setOpen(false)}
                     className={`nav-link ${isActive(to) ? "nav-link-active" : ""}`}
                   >
                     {label}
@@ -104,17 +51,13 @@ function Navbar() {
                 ))}
               </div>
 
-              <div className="mt-4 pt-4 border-t border-white/6">
+              <div className="hidden items-center gap-2 md:flex">
                 {isAuth ? (
-                  <Link
-                    to="/account"
-                    onClick={() => setOpen(false)}
-                    className="nav-user-pill w-fit"
-                  >
+                  <Link to="/account" className="nav-user-pill">
                     <img
-                      src={user?.image || "/user.png"}
-                      alt={user?.name ?? "User"}
-                      className="w-8 h-8 rounded-full object-cover ring-2 ring-indigo-500/30"
+                      src="/user.png"
+                      alt="user"
+                      className="h-8 w-8 rounded-full object-cover ring-2 ring-indigo-500/30"
                     />
                     <span className="text-sm font-medium text-white/80">
                       {user?.name?.split(" ")[0]}
@@ -122,31 +65,88 @@ function Navbar() {
                   </Link>
                 ) : (
                   <>
-                    {" "}
-                    <Link
-                      to="/login"
-                      onClick={() => setOpen(false)}
-                      className="nav-cta2 inline-block text-center mr-4 my-3 mt-0 "
-                    >
+                    <Link to="/login" className="nav-cta2">
                       Sign In
                     </Link>
-                    <Link
-                      to="/login"
-                      onClick={() => setOpen(false)}
-                      className="nav-cta inline-block text-center"
-                    >
-                      Get Started Free
+                    <Link to="/login" className="nav-cta">
+                      Get Started
                     </Link>
                   </>
                 )}
               </div>
+
+              <button
+                type="button"
+                className="rounded-xl p-2 text-white/70 transition-colors hover:bg-white/8 hover:text-white md:hidden"
+                onClick={() => setOpen((prev) => !prev)}
+                aria-label={open ? "Close menu" : "Open menu"}
+              >
+                {open ? <X size={20} /> : <Menu size={20} />}
+              </button>
             </div>
-          )}
+
+            {open && (
+              <div className="nav-mobile-panel pb-5">
+                <div className="flex flex-col gap-1 pt-2">
+                  {NAV_LINKS.map(({ label, to }) => (
+                    <Link
+                      key={to}
+                      to={to}
+                      onClick={() => setOpen(false)}
+                      className={`nav-link ${isActive(to) ? "nav-link-active" : ""}`}
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+
+                <div className="mt-4 border-t border-white/6 pt-4">
+                  {isAuth ? (
+                    <Link
+                      to="/account"
+                      onClick={() => setOpen(false)}
+                      className="nav-user-pill w-fit"
+                    >
+                      <img
+                        src="/user.png"
+                        alt={user?.name ?? "User"}
+                        className="h-8 w-8 rounded-full object-cover ring-2 ring-indigo-500/30"
+                      />
+                      <span className="text-sm font-medium text-white/80">
+                        {user?.name?.split(" ")[0]}
+                      </span>
+                    </Link>
+                  ) : (
+                    <>
+                      <Link
+                        to="/login"
+                        onClick={() => setOpen(false)}
+                        className="nav-cta2 mr-3 inline-block text-center"
+                      >
+                        Sign In
+                      </Link>
+                      <Link
+                        to="/login"
+                        onClick={() => setOpen(false)}
+                        className="nav-cta inline-block text-center"
+                      >
+                        Get Started
+                      </Link>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </nav>
 
-      {/* Spacer so content doesn't sit under fixed navbar */}
-      <div className="h-16" aria-hidden="true" />
+      <div
+        className="h-18"
+        style={{
+          backgroundColor: "rgba(6, 8, 22, 0.2)",
+        }}
+      />
     </>
   );
 }

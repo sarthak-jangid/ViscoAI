@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import Account from "./pages/Account";
+import Analyse from "./pages/Analyse";
 import { useAppData } from "./context/AppContext";
 import Loading from "./components/Loading";
 import PublicRoutes from "./components/PublicRoutes";
@@ -26,6 +27,7 @@ function App() {
           </Route>
           <Route element={<ProtectedRoutes />}>
             <Route path="/account" element={<Account />} />
+            <Route path="/analyse" element={<Analyse />} />
           </Route>
         </Routes>
         <Footer />

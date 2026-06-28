@@ -37,10 +37,10 @@ function PlanCTA({
   plan: (typeof plans)[0];
   highlight: boolean;
 }) {
-  const { isAuth, user, setUser } = useAppData();
+  const { isAuth, user } = useAppData();
 
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const handleSubscribe = async () => {
     if (!isAuth) {
       navigate("/login");
