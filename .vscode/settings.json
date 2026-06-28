@@ -1,0 +1,12 @@
+{
+  "tailwindCSS.experimental.configFile": "client/src/index.css",
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "css.validate": false
+}
