@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppData } from "../context/AppContext";
-import { server } from "../main";
+import { server } from "../config";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
