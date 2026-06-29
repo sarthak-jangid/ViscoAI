@@ -127,56 +127,41 @@ function Account() {
             </div>
           </div>
 
-          <div className="glass-card p-6">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-300">
-                <FileText size={18} />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-white">
-                  Recent activity
-                </h3>
-                <p className="text-sm text-white/45">
-                  Your recent resume review activity
-                </p>
-              </div>
+          <div className="mt-6 rounded-2xl border border-dashed border-emerald-400/20 bg-emerald-500/5 p-6 text-center">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-300">
+              <FileText size={24} />
             </div>
 
-            <div className="mt-6 space-y-3">
-              {[
-                {
-                  title: "Resume reviewed for Product Designer",
-                  time: "2 hours ago",
-                  tag: "ATS score 87",
-                },
-                {
-                  title: "Keywords optimized for Frontend Engineer",
-                  time: "1 day ago",
-                  tag: "Matched 6/8 terms",
-                },
-                {
-                  title: "Resume refreshed for recruiter screening",
-                  time: "3 days ago",
-                  tag: "Improved structure",
-                },
-              ].map((item) => (
-                <div
-                  key={item.title}
-                  className="rounded-2xl border border-white/8 bg-white/5 p-4"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-sm font-semibold text-white">
-                        {item.title}
-                      </p>
-                      <p className="mt-1 text-sm text-white/45">{item.time}</p>
-                    </div>
-                    <span className="rounded-full border border-emerald-400/20 bg-emerald-500/10 px-2.5 py-1 text-xs text-emerald-300">
-                      {item.tag}
-                    </span>
-                  </div>
-                </div>
-              ))}
+            <div className="mt-4 inline-flex items-center rounded-full border border-emerald-400/20 bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-300">
+              Coming Soon • V2
+            </div>
+
+            <h4 className="mt-4 text-lg font-semibold text-white">
+              Recent Activity
+            </h4>
+
+            <p className="mt-2 text-sm leading-6 text-white/55">
+              In Version 2, you'll be able to view your previous resume analyses,
+              compare ATS scores over time, and track improvements for different job
+              applications.
+            </p>
+
+            <div className="mt-6 grid gap-3 text-left">
+              <div className="rounded-xl border border-white/8 bg-white/5 p-3 text-sm text-white/60">
+                📄 Resume analysis history
+              </div>
+
+              <div className="rounded-xl border border-white/8 bg-white/5 p-3 text-sm text-white/60">
+                📈 ATS score progress tracking
+              </div>
+
+              <div className="rounded-xl border border-white/8 bg-white/5 p-3 text-sm text-white/60">
+                🎯 Job-specific analysis history
+              </div>
+
+              <div className="rounded-xl border border-white/8 bg-white/5 p-3 text-sm text-white/60">
+                ⭐ Save & revisit your best resumes
+              </div>
             </div>
           </div>
         </div>

@@ -20,7 +20,7 @@ import type { Analysis } from "../types";
 import { toBase64 } from "../utils";
 import { prioBg, prioColor, prioEmoji } from "../utils";
 function Analyse() {
-    const { user } = useAppData();
+    const { user, setActivities } = useAppData();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [stage, setStage] = useState<"upload" | "ready">("upload");
     const [jobTitle, setJobTitle] = useState("");
@@ -90,6 +90,31 @@ function Analyse() {
             }
 
             setAnalysis(payload);
+            if (setActivities) {
+                const newActivity = {
+                    type: "analyse",
+                    title: `Resume reviewed for ${payload.targetRole || payload.detectedRole || "a role"
+                        }`,
+                    time: new Date(),
+                    tag: `ATS score ${payload.atsScore}`,
+                };
+
+                // Optimistically update UI
+                setActivities((prev: any) => [newActivity, ...(prev || [])].slice(0, 4));
+
+                // Persist to backend
+                try {
+                    await axios.post(
+                        `${server}/api/user/activity`,
+                        newActivity,
+                        { withCredentials: true },
+                    );
+                } catch (activityError) {
+                    console.error("Failed to save activity:", activityError);
+                    // Optional: handle error, maybe revert optimistic update
+                    toast.error("Could not save recent activity.");
+                }
+            }
             toast.success("Resume analyzed successfully!");
         } catch (error: unknown) {
             console.error(error);
@@ -515,40 +540,4 @@ function Analyse() {
     );
 }
 
-
-
-<div className="glass-card p-6 sm:p-8">
-    <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-300">
-            <TrendingUp size={18} />
-        </div>
-        <div>
-            <h3 className="text-lg font-semibold">
-                What this review focuses on
-            </h3>
-            <p className="text-sm text-white/45">
-                A role-specific review experience.
-            </p>
-        </div>
-    </div>
-
-    <ul className="mt-5 space-y-3 text-sm text-white/65">
-        <li className="flex items-start gap-2">
-            <span className="mt-1 h-2.5 w-2.5 rounded-full bg-gradient-to-r from-indigo-400 to-emerald-400" />{" "}
-            ATS fit based on your target role and description
-        </li>
-        <li className="flex items-start gap-2">
-            <span className="mt-1 h-2.5 w-2.5 rounded-full bg-gradient-to-r from-indigo-400 to-emerald-400" />{" "}
-            Keyword coverage compared against the role requirements
-        </li>
-        <li className="flex items-start gap-2">
-            <span className="mt-1 h-2.5 w-2.5 rounded-full bg-gradient-to-r from-indigo-400 to-emerald-400" />{" "}
-            Clear suggestions to strengthen your resume for that job
-        </li>
-    </ul>
-</div>
-
 export default Analyse;
-
-
-

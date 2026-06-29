@@ -21,7 +21,20 @@ function Navbar() {
     <>
       <nav className="navbar">
         <div className="mx-auto w-full max-w-6xl px-3 sm:px-4 lg:px-5">
-          <div className="mt-3 rounded-full border border-white/10 bg-white/8 px-2.5 py-2 shadow-[0_16px_44px_rgba(2,6,23,0.32)] backdrop-blur-2xl">
+          <div
+            className={`
+    px-3
+    mt-3 
+    py-1.5
+    rounded-4xl
+    border border-white/10  
+    bg-white/10
+    backdrop-blur-2xl
+    shadow-[0_16px_44px_rgba(2,6,23,0.32)]
+    transition-all duration-300 ease-in-out
+    ${open ? " max-h-[420px]" : "max-h-16"}
+  `}
+          >
             <div className="flex h-13 items-center justify-between gap-2">
               <Link
                 to="/"
@@ -86,7 +99,10 @@ function Navbar() {
             </div>
 
             {open && (
-              <div className="nav-mobile-panel pb-5">
+              <div className={`nav-mobile-panel p-4 pb-5 rounded-4xl mb-2
+      transition-all duration-300 ease-in-out
+      ${open ? "opacity-100 mt-4" : "opacity-0 mt-0"}
+    `}>
                 <div className="flex flex-col gap-1 pt-2">
                   {NAV_LINKS.map(({ label, to }) => (
                     <Link
