@@ -3,7 +3,7 @@ import "./index.css";
 import App from "./App.tsx";
 import { AppProvider } from "./context/AppContext.tsx";
 
-export const server = "http://localhost:5000";
+export const server = import.meta.env.VITE_SERVER_URL;
 
 // Google
 import { GoogleOAuthProvider } from "@react-oauth/google";

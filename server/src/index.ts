@@ -20,7 +20,7 @@ await connectDB();
 
 const app = express();
 
-const allowedOrigin = "http://localhost:5173";
+const allowedOrigin = env.FRONTEND_URL;
 app.use(
   cors({
     origin: allowedOrigin,
