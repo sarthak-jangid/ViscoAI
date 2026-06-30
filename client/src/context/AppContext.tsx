@@ -49,8 +49,8 @@ export const AppProvider = ({ children }: AppProps) => {
       setUser(null);
       setIsAuth(false);
       toast.success("Logged out ...");
-    } catch (error) {
-      toast.error(error.message);
+    } catch (error: any) {
+      toast.error(error?.message || "Something went wrong");
     }
   };
 
