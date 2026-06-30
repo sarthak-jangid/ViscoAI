@@ -52,6 +52,11 @@ function PlanCTA({
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubscribe = async (price: string) => {
+    if (!isAuth) {
+      toast.error("Please login to purchase a plan");
+      navigate("/login");
+      return;
+    }
     try {
       setLoading(true);
       const duration =
