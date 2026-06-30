@@ -110,7 +110,7 @@ function PlanCTA({
 
       const razorpay = new window.Razorpay(options);
       razorpay.open();
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
