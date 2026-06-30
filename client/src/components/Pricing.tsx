@@ -103,8 +103,8 @@ function PlanCTA({
           }
         },
 
-        "theme": {
-          color: "#F32724",
+        theme: {
+          color: "#6366F1",
         }
       };
 

@@ -42,7 +42,7 @@ function Navbar() {
                 onClick={() => setOpen(false)}
               >
                 <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-emerald-400 text-base shadow-lg shadow-indigo-500/30 transition-transform duration-200 group-hover:scale-105">
-                  ✦
+                  📚
                 </div>
                 <span
                   className="text-lg font-semibold tracking-tight text-white/90"

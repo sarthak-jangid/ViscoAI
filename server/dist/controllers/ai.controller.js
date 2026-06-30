@@ -14,18 +14,26 @@ export const analyseResume = TryCatch(async (req, res) => {
             message: "Upgrade your plan to continue",
         });
     }
-    const analysis = await analyseResumeWithAI({
-        pdfBase64,
-        jobTitle,
-        jobDescription,
-        keywords,
-    });
-    if (!user.hasProAccess()) {
-        user.freeRequestUsed += 1;
-        await user.save();
+    try {
+        const analysis = await analyseResumeWithAI({
+            pdfBase64,
+            jobTitle,
+            jobDescription,
+            keywords,
+        });
+        if (!user.hasProAccess()) {
+            user.freeRequestUsed += 1;
+            await user.save();
+        }
+        return res.status(200).json({
+            success: true,
+            analysis,
+        });
     }
-    return res.status(200).json({
-        success: true,
-        analysis,
-    });
+    catch (error) {
+        return res.status(503).json({
+            success: false,
+            message: "AI service is busy. Please try again in a few moments.",
+        });
+    }
 });

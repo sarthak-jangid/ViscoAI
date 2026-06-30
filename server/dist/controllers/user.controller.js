@@ -4,8 +4,6 @@ import { env } from "../config/env.config.js";
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 export const loginUser = TryCatch(async (req, res) => {
-    // console.log("request came to backend... Login route ")
-    console.log(req.body);
     const { credential } = req.body;
     if (!credential) {
         return res.status(400).json({

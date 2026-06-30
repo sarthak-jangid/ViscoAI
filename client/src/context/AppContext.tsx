@@ -30,7 +30,6 @@ export const AppProvider = ({ children }: AppProps) => {
         setUser(data.user);
         setIsAuth(true);
       } catch (error) {
-        console.log(error);
       } finally {
         setLoading(false);
       }
@@ -52,7 +51,7 @@ export const AppProvider = ({ children }: AppProps) => {
       setIsAuth(false);
       toast.success("Logged out ...");
     } catch (error) {
-      console.error("Logout failed:", error);
+      toast.error(error.message);
     }
   };
 

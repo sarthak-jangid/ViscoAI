@@ -50,7 +50,6 @@ export const isAuth = async (
         next();
 
     } catch (error: any) {
-        console.log(error.message);
         res.status(500).json({
             message: "Please Login",
         });

@@ -7,9 +7,7 @@ import { AuthenticatedRequest } from "../middlewares/isAuth.middleware.js";
 
 
 export const loginUser = TryCatch(async (req, res) => {
-    // console.log("request came to backend... Login route ")
 
-    console.log(req.body);
     const { credential }: { credential: string } = req.body;
 
     if (!credential) {

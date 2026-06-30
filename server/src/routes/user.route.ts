@@ -4,8 +4,6 @@ import { isAuth } from "../middlewares/isAuth.middleware.js";
 
 const router = express.Router();
 
-// console.log("request came to backend /user route")
-
 // POST
 router.post("/login", loginUser)
 router.get("/me", isAuth, myProfile);

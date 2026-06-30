@@ -11,7 +11,7 @@ import {
     TrendingUp,
     UploadCloud,
 } from "lucide-react";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useAppData } from "../context/AppContext"; // This import is correct
@@ -19,6 +19,7 @@ import { server } from "../main"; // FIX: Changed import path for 'server'
 import type { Analysis } from "../types";
 import { toBase64 } from "../utils";
 import { prioBg, prioColor, prioEmoji } from "../utils";
+import { ScoreRing } from "../ring";
 
 function Analyse() {
     const { user } = useAppData();
@@ -32,6 +33,8 @@ function Analyse() {
     const [keywords, setKeywords] = useState("");
     const [analysis, setAnalysis] = useState<Analysis | null>(null);
 
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
     const priorityOrder = {
         high: 1,
         medium: 2,
@@ -41,16 +44,16 @@ function Analyse() {
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
 
-        if (!file) {
-            toast.error("Please upload a resume.");
-            return;
-        }
+        if (!file) return;
 
         setSelectedFile(file);
-        setStage("ready");
+
+        // Reset previous analysis automatically
         setAnalysis(null);
         setError("");
         setProgress(0);
+
+        setStage("ready");
 
         toast.success(`${file.name} is ready for review`);
     };
@@ -100,7 +103,6 @@ function Analyse() {
 
             toast.success("Resume analyzed successfully!");
         } catch (error: unknown) {
-            console.error(error);
             const message = axios.isAxiosError(error)
                 ? error.response?.data?.message || error.message || "Failed to analyze resume."
                 : error instanceof Error
@@ -110,30 +112,16 @@ function Analyse() {
             toast.error(message);
         }
         finally {
-            setSelectedFile(null);
-            setLoading(false); // Ensure loading is turned off even on error
+            if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+            }
+            setLoading(false);
         }
 
-    };
-
-    const handleNewAnalysis = () => {
-        setSelectedFile(null);
-        setStage("upload");
-        setJobTitle("");
-        setJobDescription("");
-        setKeywords("");
-        setAnalysis(null);
-        setError("");
-        setProgress(0);
-        setLoading(false); // Ensure loading is false when starting new analysis
-        toast.success("Ready for a new analysis!");
     };
 
     // This effect manages the progress simulation and hides the overlay when done.
     useEffect(() => {
-        if (!loading) {
-            return;
-        }
 
         // If analysis is complete (success or error), animate to 100% and then hide
         if (analysis || error) {
@@ -235,6 +223,7 @@ function Analyse() {
                                     or click to browse from your device
                                 </p>
                                 <input
+                                    ref={fileInputRef}
                                     type="file"
                                     className="hidden"
                                     accept=".pdf,.doc,.docx"
@@ -312,7 +301,13 @@ function Analyse() {
                                         )}
                                     </div>
                                     <div className="rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-3 py-2 text-2xl font-black text-emerald-300">
-                                        {analysis?.atsScore ?? "..."}
+                                        {analysis ? (
+                                            <ScoreRing score={analysis.atsScore} />
+                                        ) : (
+                                            <div className="flex h-[45px] w-[45px] items-center justify-center rounded-full border-3 font-medium tracking-widest text-[12px] border-white/50  text-white/60">
+                                                N/A
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
@@ -334,15 +329,6 @@ function Analyse() {
                                         analysis?.summary ?? "Add role details and upload your resume to see a tailored ATS review."
                                     )}
                                 </div>
-                                {analysis && (
-                                    <button
-                                        type="button"
-                                        onClick={handleNewAnalysis}
-                                        className="btn-secondary mt-4 inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold"
-                                    >
-                                        Analyze Next Resume <ArrowUpRight size={16} />
-                                    </button>
-                                )}
                             </div>
 
                             {/* --- Analysis Details Cards (conditionally rendered) --- */}

@@ -58,7 +58,7 @@ function Account() {
                     {isPro
                       ? <>
                         Your premium access is live <br />
-                        <span> Expires {user?.subscription && new Date(user.subscription!).toLocaleDateString()} </span>
+                        <span className="mt-2"> Expires on • {user?.subscription && new Date(user.subscription).toLocaleDateString()} </span>
                       </>
                       : `${freeLeft} of 3 free analyses remaining`}
                   </p>
