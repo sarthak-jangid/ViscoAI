@@ -103,6 +103,7 @@ function Analyse() {
 
             toast.success("Resume analyzed successfully!");
         } catch (error: unknown) {
+            console.error(error);
             const message = axios.isAxiosError(error)
                 ? error.response?.data?.message || error.message || "Failed to analyze resume."
                 : error instanceof Error

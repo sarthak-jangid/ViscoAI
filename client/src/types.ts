@@ -17,63 +17,6 @@ export interface AppContextType {
   LogoutUser: () => void;
 }
 
-export interface Job {
-  title: string;
-  company: string;
-  matchScore: number;
-  location: string;
-  type: string;
-  skills: string[];
-  whyMatch: string;
-  applyTip: string;
-}
-
-export interface Question {
-  id: number;
-  question: string;
-  hint: string;
-  category: string;
-}
-export interface InterviewData {
-  role: string;
-  round: string;
-  questions: Question[];
-}
-
-export interface Experience {
-  title: string;
-  company: string;
-  location: string;
-  startDate: string;
-  endDate: string;
-  bullets: string[];
-}
-export interface Education {
-  degree: string;
-  school: string;
-  location: string;
-  year: string;
-  gpa: string;
-}
-export interface Project {
-  name: string;
-  description: string;
-  link: string;
-}
-export interface ResumeData {
-  name: string;
-  email: string;
-  phone: string;
-  location: string;
-  linkedin: string;
-  summary: string;
-  experience: Experience[];
-  education: Education[];
-  skills: { technical: string[]; soft: string[] };
-  projects: Project[];
-  certifications: string[];
-}
-
 export interface ScoreBlock {
   score: number;
   feedback: string;
