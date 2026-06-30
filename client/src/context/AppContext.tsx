@@ -29,8 +29,7 @@ export const AppProvider = ({ children }: AppProps) => {
         });
         setUser(data.user);
         setIsAuth(true);
-      } catch (error) {
-      } finally {
+      } catch (error) { } finally {
         setLoading(false);
       }
     }
