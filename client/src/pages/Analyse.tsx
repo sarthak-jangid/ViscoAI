@@ -19,8 +19,9 @@ import { server } from "../main"; // FIX: Changed import path for 'server'
 import type { Analysis } from "../types";
 import { toBase64 } from "../utils";
 import { prioBg, prioColor, prioEmoji } from "../utils";
+
 function Analyse() {
-    const { user, setActivities } = useAppData();
+    const { user } = useAppData();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [stage, setStage] = useState<"upload" | "ready">("upload");
     const [jobTitle, setJobTitle] = useState("");
@@ -30,6 +31,12 @@ function Analyse() {
     const [jobDescription, setJobDescription] = useState("");
     const [keywords, setKeywords] = useState("");
     const [analysis, setAnalysis] = useState<Analysis | null>(null);
+
+    const priorityOrder = {
+        high: 1,
+        medium: 2,
+        low: 3,
+    };
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -90,31 +97,7 @@ function Analyse() {
             }
 
             setAnalysis(payload);
-            if (setActivities) {
-                const newActivity = {
-                    type: "analyse",
-                    title: `Resume reviewed for ${payload.targetRole || payload.detectedRole || "a role"
-                        }`,
-                    time: new Date(),
-                    tag: `ATS score ${payload.atsScore}`,
-                };
 
-                // Optimistically update UI
-                setActivities((prev: any) => [newActivity, ...(prev || [])].slice(0, 4));
-
-                // Persist to backend
-                try {
-                    await axios.post(
-                        `${server}/api/user/activity`,
-                        newActivity,
-                        { withCredentials: true },
-                    );
-                } catch (activityError) {
-                    console.error("Failed to save activity:", activityError);
-                    // Optional: handle error, maybe revert optimistic update
-                    toast.error("Could not save recent activity.");
-                }
-            }
             toast.success("Resume analyzed successfully!");
         } catch (error: unknown) {
             console.error(error);
@@ -127,6 +110,7 @@ function Analyse() {
             toast.error(message);
         }
         finally {
+            setSelectedFile(null);
             setLoading(false); // Ensure loading is turned off even on error
         }
 
@@ -517,20 +501,37 @@ function Analyse() {
                             </div>
                             <div className="mt-4 space-y-3">
                                 {analysis.suggestions.length ? (
-                                    analysis.suggestions.map((item) => (
-                                        <div key={`${item.category}-${item.issue}`} className={`rounded-2xl border ${prioBg[item.priority]} p-3`}>
-                                            <div className="flex items-center justify-between gap-2">
-                                                <p className={`text-sm font-semibold ${prioColor[item.priority]}`}>{item.category}</p>
-                                                <span className={`rounded-full border ${prioBg[item.priority]} px-2 py-1 text-[11px] uppercase tracking-[0.2em] ${prioColor[item.priority]}`}>
-                                                    {prioEmoji[item.priority]} {item.priority}
-                                                </span>
+                                    [...analysis.suggestions]
+                                        .sort(
+                                            (a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]
+                                        )
+                                        .map((item) => (
+                                            <div
+                                                key={`${item.category}-${item.issue}`}
+                                                className={`rounded-2xl border ${prioBg[item.priority]} p-3`}
+                                            >
+                                                <div className="flex items-center justify-between gap-2">
+                                                    <p className={`text-sm font-semibold ${prioColor[item.priority]}`}>
+                                                        {item.category}
+                                                    </p>
+
+                                                    <span
+                                                        className={`rounded-full border ${prioBg[item.priority]} px-2 py-1 text-[11px] uppercase tracking-[0.2em] ${prioColor[item.priority]}`}
+                                                    >
+                                                        {prioEmoji[item.priority]} {item.priority}
+                                                    </span>
+                                                </div>
+
+                                                <p className="mt-2 text-sm text-white/60">{item.issue}</p>
+                                                <p className="mt-1 text-sm text-white/45">
+                                                    {item.recommendation}
+                                                </p>
                                             </div>
-                                            <p className="mt-2 text-sm text-white/60">{item.issue}</p>
-                                            <p className="mt-1 text-sm text-white/45">{item.recommendation}</p>
-                                        </div>
-                                    ))
+                                        ))
                                 ) : (
-                                    <p className="text-sm text-white/45">No extra suggestions were returned.</p>
+                                    <p className="text-sm text-white/45">
+                                        No extra suggestions were returned.
+                                    </p>
                                 )}
                             </div>
                         </div></>}

@@ -3,6 +3,15 @@ import { useAppData } from "../context/AppContext";
 import { plans } from "../utils";
 import { useState } from "react";
 import { CheckCircle, Shield } from "lucide-react";
+import { server } from "../main";
+import axios from "axios";
+import toast from "react-hot-toast";
+
+declare global {
+  interface Window {
+    Razorpay: any
+  }
+}
 
 function StatusBadge() {
   const { isAuth, user } = useAppData();
@@ -19,12 +28,12 @@ function StatusBadge() {
       />
       {isPro && user?.subscription
         ? `Pro active • expires ${new Date(
-            user?.subscription,
-          ).toLocaleDateString("en-IN", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-          })}`
+          user?.subscription,
+        ).toLocaleDateString("en-IN", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })}`
         : "You're on the Free plan • 3 requests included"}
     </div>
   );
@@ -37,15 +46,71 @@ function PlanCTA({
   plan: (typeof plans)[0];
   highlight: boolean;
 }) {
-  const { isAuth, user } = useAppData();
+  const { isAuth, user, setUser } = useAppData();
 
   const navigate = useNavigate();
-  const [loading] = useState(false);
-  const handleSubscribe = async () => {
-    if (!isAuth) {
-      navigate("/login");
-      return;
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleSubscribe = async (price: string) => {
+    try {
+      setLoading(true);
+      const duration =
+        price === "₹299"
+          ? 1
+          : price === "₹1499"
+            ? 6
+            : null;
+
+      if (!duration) {
+        toast.error("Invalid plan selected");
+        return;
+      }
+
+      const { data: { order } } = await axios.post(`${server}/api/payment/checkout`, {
+        duration
+      }, {
+        withCredentials: true
+      })
+
+      const options = {
+        "key": "rzp_test_T7Uv8rfsRdhuOv",
+        "amount": order.amount,
+        "currency": "INR",
+        "name": "ViscoAI",
+        "description": "Find job easily",
+        "order_id": order.id,
+        "handler": async function (response: any) {
+          const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
+          try {
+            const { data } = await axios.post(`${server}/api/payment/verify`, {
+              razorpay_order_id, razorpay_payment_id, razorpay_signature
+            }, {
+              withCredentials: true
+            });
+
+            toast.success(data.message);
+            setUser(data.updatedUser);
+            navigate("/account");
+            setLoading(false);
+          } catch (error: any) {
+            setLoading(false);
+            toast.error(error.response.data.message);
+          }
+        },
+
+        "theme": {
+          color: "#F32724",
+        }
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
+
   };
 
   const isPro =
@@ -71,11 +136,11 @@ function PlanCTA({
     <button
       className={`mt-auto text-center text-sm font-semibold py-3 rounded-xl transition-all duration-200 ${highlight ? "btn-primary" : "bg-white/6 hover:bg-white/10 border border-white/10 text-white"}`}
       onClick={() => {
-        handleSubscribe();
+        handleSubscribe(plan.price);
       }}
       disabled={loading}
     >
-      {loading ? "Pls Wait ..." : plan.cta}
+      {loading ? "Please Wait ..." : plan.cta}
     </button>
   );
 }

@@ -56,15 +56,18 @@ function Account() {
                   </p>
                   <p className="text-sm text-white/45">
                     {isPro
-                      ? "Your premium access is live"
+                      ? <>
+                        Your premium access is live <br />
+                        <span> Expires {user?.subscription && new Date(user.subscription!).toLocaleDateString()} </span>
+                      </>
                       : `${freeLeft} of 3 free analyses remaining`}
                   </p>
                 </div>
               </div>
 
-              <div className="mt-5 rounded-2xl border border-white/8 bg-white/5 p-4">
+              {!isPro && <div className="mt-5 rounded-2xl border border-white/8 bg-white/5 p-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-white/50">Weekly usage</span>
+                  <span className="text-white/50">Usage</span>
                   <span className="font-medium text-white/70">
                     {user?.freeRequestUsed ?? 0}/3
                   </span>
@@ -80,7 +83,7 @@ function Account() {
                     You’ve reached the free analysis limit. Upgrade to continue.
                   </p>
                 )}
-              </div>
+              </div>}
 
               {!isPro && (
                 <HashLink

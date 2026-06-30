@@ -4,10 +4,16 @@ import { env } from "./config/env.config.js";
 import connectDB from "./config/db.config.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import Razorpay from "razorpay";
 // Routes
 import userRoutes from "./routes/user.route.js";
 import aiRoutes from "./routes/ai.route.js";
+import paymentRoutes from "./routes/payment.route.js";
 dotenv.config();
+export const instance = new Razorpay({
+    key_id: env.RAZORPAY_KEY,
+    key_secret: env.RAZORPAY_KEY_SECRET,
+});
 await connectDB();
 const app = express();
 const allowedOrigin = "http://localhost:5173";
@@ -23,9 +29,11 @@ app.use(express.urlencoded({
     extended: true,
     limit: "20mb",
 }));
-// console.log("request came to backend...")
+// Routes ...
 app.use("/api/user", userRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/payment", paymentRoutes);
+// Listen
 app.listen(env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
 });
